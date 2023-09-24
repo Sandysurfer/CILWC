@@ -1,0 +1,37 @@
+<template>
+  <!--Sending Wrapper from Apex to Lwc-->
+  <lightning-card
+    title="Account with Contacts using wrapper class in LWC"
+    icon-name="custom:custom63"
+  >
+    <div class="slds-m-around_medium">
+      <template if:true={accountsWithContacts}>
+        <template for:each={accountsWithContacts} for:item="accWithContacts">
+          <div key={accWithContacts.accRecord.Id}>
+            <div class="slds-text-heading_medium">
+              {accWithContacts.accRecord.Name}
+            </div>
+            <template if:true={accWithContacts.contactList}>
+              Contacts Count is {accWithContacts.contactCount}. Contact list:
+              <ul class="slds-list_dotted">
+                <template for:each={accWithContacts.contactList} for:item="con">
+                  <li key={con.Id}>{con.Name}</li>
+                </template>
+              </ul>
+            </template>
+          </div>
+        </template>
+      </template>
+      <template if:true={error}> {error} </template>
+    </div>
+
+    <!--Sending Objects from lwc to Apex-->
+    <div class="slds-m-around_medium">
+      <lightning-button
+        variant="brand"
+        label="Create Account with Contacts"
+        onclick={handleClick}
+      ></lightning-button>
+    </div>
+  </lightning-card>
+</template>

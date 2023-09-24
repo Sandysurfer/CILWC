@@ -1,0 +1,32 @@
+<template>
+  <lightning-card title="Create Account Record">
+    <lightning-input
+      type="text"
+      label="Account Name"
+      onchange={handleName}
+    ></lightning-input>
+    <lightning-input
+      type="text"
+      label="Account Phone"
+      onchange={handlePhone}
+    ></lightning-input>
+    <lightning-input
+      type="text"
+      label="Account Fax"
+      onchange={handleFax}
+    ></lightning-input>
+    <lightning-input
+      type="text"
+      label="Account Industry"
+      onchange={handleIndustry}
+    ></lightning-input>
+
+    <div class="slds-align_absolute-center">
+      <lightning-button
+        variant="brand"
+        label="Create Account"
+        onclick={handleClick}
+      ></lightning-button>
+    </div>
+  </lightning-card>
+</template>

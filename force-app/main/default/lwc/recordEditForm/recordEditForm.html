@@ -1,0 +1,15 @@
+<template>
+  <lightning-card title="Account Record Edit Form" icon-name="standard:account">
+    <lightning-record-edit-form object-api-name={objectApiName} record-id={recordId} onsuccess={handleSuccess}>
+      <lightning-input-field field-name={nameField}> </lightning-input-field>
+      <lightning-input-field field-name={phoneField}> </lightning-input-field>
+      <lightning-input-field field-name={faxField}></lightning-input-field>
+      <lightning-input-field field-name={ratingField}></lightning-input-field>
+
+      <div class="slds-align_absolute-center">
+        <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleReset}></lightning-button>
+        <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Save"></lightning-button>
+      </div>
+    </lightning-record-edit-form>
+  </lightning-card>
+</template>

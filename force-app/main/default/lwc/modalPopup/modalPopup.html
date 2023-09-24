@@ -1,0 +1,16 @@
+<template>
+  <lightning-modal-header label="Modal Header"></lightning-modal-header>
+  <lightning-modal-body>{content} - {description}</lightning-modal-body>
+  <lightning-modal-footer>
+    <lightning-button
+      variant="neutral"
+      label="OK"
+      onclick={handleOkay}
+    ></lightning-button>
+    <lightning-button
+      variant="neutral"
+      label="Not Okay"
+      onclick={handleNotOkay}
+    ></lightning-button>
+  </lightning-modal-footer>
+</template>

@@ -1,0 +1,63 @@
+<template>
+  <!--- Combobox to display Accounut list by using imperative method...-->
+
+  <lightning-card
+    title="Account Combobox"
+    icon-name="standard:account"
+    variant="base"
+  >
+    <lightning-combobox
+      label="Status"
+      value={value}
+      placeholder="Select Account"
+      options={options}
+      onchange={handleChange}
+    >
+    </lightning-combobox>
+
+    <p>Selected Value is: {value}</p>
+  </lightning-card>
+
+  <!---Combobox to display input Value on Component according to user input-->
+
+  <lightning-card
+    variant="Narrow"
+    title="Send Data JS to CMP"
+    icon-name="custom:custom45"
+  >
+    <div class="slds-box">
+      <lightning-combobox
+        name="salutation"
+        label="Status"
+        value={selectedSalutation}
+        placeholder="Select Salutation"
+        options={salutationOptions}
+        onchange={handleSalutationChange}
+      >
+      </lightning-combobox>
+
+      <lightning-input
+        type="text"
+        value={firstName}
+        label="First Name"
+        onchange={handleFirstNamechange}
+      ></lightning-input>
+      <lightning-input
+        type="text"
+        value={middleName}
+        label="Middle Name"
+        onchange={handleMiddleNamechange}
+      ></lightning-input>
+      <lightning-input
+        type="text"
+        value={lastName}
+        label="Last Name"
+        onchange={handleLastNamechange}
+      ></lightning-input>
+
+      <div class="slds-notify slds-notify_alert slds-m-top_medium" role="alert">
+        <h2><i>{selectedSalutation} {firstName} {middleName} {lastName}</i></h2>
+      </div>
+    </div>
+  </lightning-card>
+</template>
