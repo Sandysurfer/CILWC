@@ -21,12 +21,12 @@ export default class LifecycleHooks extends LightningElement {
 
     //Do not create Custom Events and dispatchEvent...
 
-    //Navigation Mixin for stage Change in allowed...
+    //Navigation Mixin is not allowed.
   }
 
   connectedCallback() {
     console.log("Inside connectedCallback");
-    //To Avoid firing of connected callback multiple times use boolean variable..
+    //To Avoid firing of connected callback method multiple times use boolean variable..
 
     //Accessing child component is not allowed as its not available..
 
