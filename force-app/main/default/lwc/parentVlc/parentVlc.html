@@ -1,0 +1,9 @@
+<template>
+  <lightning-card title="VLC Player" icon-name="utility:desktop">
+    <p>{desc} : {vol}</p>
+    <c-child-vlc
+      ondecrease={handleVolDecrease}
+      onincrease={handleVolIncrease}
+    ></c-child-vlc>
+  </lightning-card>
+</template>

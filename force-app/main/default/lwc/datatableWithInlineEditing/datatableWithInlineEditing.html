@@ -1,0 +1,12 @@
+<template>
+  <lightning-card title="Lightning DataTable With Inline Editing">
+    <lightning-datatable
+      key-field="Id"
+      data={contacts.data}
+      columns={columns}
+      onsave={handleSave}
+      draft-values={draftValues}
+    >
+    </lightning-datatable>
+  </lightning-card>
+</template>
