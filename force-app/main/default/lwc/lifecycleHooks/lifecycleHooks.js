@@ -17,11 +17,11 @@ export default class LifecycleHooks extends LightningElement {
 
     //Accessing elements using (this.template) is not allowed..
 
-    //Calling Apex Method is Allowed, But try doing in connected Callback method..
+    //Calling Apex Method is Allowed in constructor method, But try doing in connected Callback method..
 
     //Do not create Custom Events and dispatchEvent...
 
-    //Navigation Mixin is not allowed...
+    //Navigation Mixin for stage Change in allowed...
   }
 
   connectedCallback() {
