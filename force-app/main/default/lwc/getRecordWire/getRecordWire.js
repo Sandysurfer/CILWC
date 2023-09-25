@@ -7,7 +7,7 @@ export default class GetRecordWire extends LightningElement {
   @track accountRecords;
   @track accountError;
 
-  //Wire a Method by field Name AND recordId dynamically using uiRecordApi......
+  //Wire a Method by function and passing parameters, field Name AND recordId dynamically using uiRecordApi......
   @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME_FIELD] })
   wiredAccounts({ data, error }) {
     if (data) {
