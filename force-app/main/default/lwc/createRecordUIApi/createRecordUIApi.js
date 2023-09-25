@@ -4,31 +4,31 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class CreateRecordImperative extends LightningElement {
 
-  name;
-  phone;
-  fax;
-  industry;
+  accountName;
+  accountPhone;
+  accountFax;
+  accountIndustry;
 
   handleName(event) {
-    this.name = event.target.value;
+    this.accountName = event.target.value;
   }
   handlePhone(event) {
-    this.phone = event.target.value;
+    this.accountPhone = event.target.value;
   }
   handleFax(event) {
-    this.fax = event.target.value;
+    this.accountFax = event.target.value;
   }
   handleIndustry(event) {
-    this.industry = event.target.value;
+    this.accountIndustry = event.target.value;
   }
 
   handleClick() {
     //Step 1:Capture list of fields as per user has entered..
     const fields = {
-      Name: this.name,
-      Phone: this.phone,
-      Fax: this.fax,
-      Industry: this.industry
+      Name: this.accountName,
+      Phone: this.accountPhone,
+      Fax: this.accountFax,
+      Industry: this.accountIndustry
     };
 
     //Step 2:Create api Record With Field values..

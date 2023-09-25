@@ -1,5 +1,6 @@
 import { LightningElement } from 'lwc';
 import createClientRecords from '@salesforce/apex/ClientController.createClientRecords';
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 export default class CreateRecordUsingApex extends LightningElement {
 
     clientName;
@@ -22,9 +23,23 @@ export default class CreateRecordUsingApex extends LightningElement {
         createClientRecords({ clName: this.clientName, clPhone: this.clientPhone, clEmail: this.clientEmail })
             .then(result => {
                 console.log('client Record-->' + JSON.stringify(result));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                      title: "Success",
+                      message: "Client Record created Successfully",
+                      variant: "success"
+                    })
+                  );
             })
             .catch(error => {
                 console.log('Error-->' + JSON.stringify(error));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                      title: "Error creating record",
+                      message: error.body.message,
+                      variant: "error"
+                    })
+                  );
             })
 
     }
