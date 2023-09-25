@@ -3,11 +3,11 @@ import { createRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class CreateRecordImperative extends LightningElement {
+
   name;
   phone;
   fax;
   industry;
-  accountRecords;
 
   handleName(event) {
     this.name = event.target.value;
@@ -37,8 +37,8 @@ export default class CreateRecordImperative extends LightningElement {
     //Step 3:Create Record using imperation method and display toast message on creation....
     createRecord(recordData)
       .then((result) => {
-        this.accountRecords = result;
-        alert("Account is Created Successfully with AccountId: " + result.id);
+        console.log('Created Account Record', JSON.stringify(result));
+        //alert("Account is Created Successfully with AccountId: " + result.id);
         this.dispatchEvent(
           new ShowToastEvent({
             title: "Success",
@@ -48,7 +48,7 @@ export default class CreateRecordImperative extends LightningElement {
         );
       })
       .catch((error) => {
-        alert("Account Creation Failed: " + error.body.message);
+        // alert("Account Creation Failed: " + error.body.message);
         this.accountRecords = error;
         this.dispatchEvent(
           new ShowToastEvent({

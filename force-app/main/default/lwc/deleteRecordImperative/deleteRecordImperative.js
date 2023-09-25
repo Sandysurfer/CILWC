@@ -9,6 +9,7 @@ export default class DeleteRecordImperative extends NavigationMixin(
   handleDelete() {
     deleteRecord(this.recordId)
       .then((result) => {
+        console.log('Deleted Record', JSON.stringify(result));
         this[NavigationMixin.Navigate]({
           type: "standard__objectPage",
           attributes: {
@@ -20,6 +21,8 @@ export default class DeleteRecordImperative extends NavigationMixin(
           }
         });
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log('Error-->', JSON.stringify(error));
+      });
   }
 }
