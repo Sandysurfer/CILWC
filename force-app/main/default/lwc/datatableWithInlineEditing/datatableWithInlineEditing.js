@@ -54,7 +54,6 @@ export default class LwcDatatable extends LightningElement {
         // Display fresh data in the datatable...
         return refreshApex(this.contacts);
         })
-	  
         .catch((error) => {
         this.dispatchEvent(
           new ShowToastEvent({
