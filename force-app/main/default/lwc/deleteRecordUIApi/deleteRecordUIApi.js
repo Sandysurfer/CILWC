@@ -1,9 +1,8 @@
 import { LightningElement, api } from "lwc";
 import { deleteRecord } from "lightning/uiRecordApi";
 import { NavigationMixin } from "lightning/navigation";
-export default class DeleteRecordImperative extends NavigationMixin(
-  LightningElement
-) {
+export default class DeleteRecordImperative extends NavigationMixin(LightningElement) {
+
   @api recordId;
 
   handleDelete() {

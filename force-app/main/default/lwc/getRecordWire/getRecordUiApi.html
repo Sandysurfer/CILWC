@@ -1,15 +1,10 @@
 <template>
-  <lightning-card
-    variant="Narrow"
-    title="Get Record Wire as Function"
-    icon-name="custom:custom46"
-  >
+  <lightning-card variant="Narrow" title="Get Record Wire as Function" icon-name="standard:account">
     <template if:true={accountRecords}>
       <template for:each={accountRecords} for:item="accObj">
         <lightning-layout key={accObj.id} class="slds-var-m-vertical_x-small">
           <lightning-layout-Item>
-            {accObj.Name} ->{accObj.Industry}</lightning-layout-Item
-          >
+            {accObj.Name} ->{accObj.Industry}</lightning-layout-Item>
         </lightning-layout>
       </template>
     </template>
