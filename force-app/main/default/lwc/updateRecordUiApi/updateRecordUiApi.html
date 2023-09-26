@@ -1,0 +1,11 @@
+<template>
+    <!--Update Record Using Lightning ui RecordApi-->
+    <lightning-card title="Update Record" icon-name="standard:account" variant="base">
+        <div class="slds-m-around_medium">
+            <lightning-input label="Id" onchange={handleIdChange}></lightning-input>
+            <lightning-input label="Name" onchange={handleNameChange}></lightning-input>
+            <lightning-input label="Phone" onchange={handlePhoneChange}></lightning-input>
+            <lightning-button label="Update Record" variant="brand" onclick={handleUpdateRecord}> </lightning-button>
+        </div>
+    </lightning-card>
+</template>

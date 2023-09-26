@@ -9,15 +9,15 @@ export default class CallApexWireMethod extends LightningElement {
 
   //Wire as a Property With Parameter...
   searchContactKey;
-  contacts;
+  contactRecords;
 
   handleContactChange(event) {
     this.searchContactKey = event.target.value;
   }
 
+  //Wire as a Function with Parameter...
   @wire(findContactList, { searchContacts: "$searchContactKey" }) contacts;
 
-  //Wire as a Function with Parameter...
   accList;
   SearchcAccountKey;
   error;
@@ -54,7 +54,7 @@ export default class CallApexWireMethod extends LightningElement {
   accountArray = ["Madrid", "Barcelona", "Sevilla"];
 
   @wire(passAccountList, { newAccountList: "$accountArray" })
-  wiredAccounts({ data, error }) {
+  wiredAccountsParam({ data, error }) {
     if (data) {
       this.newAccList = data;
       console.log("Account Data-->" + JSON.stringify(this.newAccList));
