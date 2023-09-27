@@ -1,5 +1,5 @@
-import { LightningElement } from "lwc";
+import { LightningElement } from 'lwc';
 
 export default class Parentcmp extends LightningElement {
-  valueFromParent = "Lightning Web Components in SalesForce";
+    valueFromParent = 'Lightning Web Components in SalesForce';
 }

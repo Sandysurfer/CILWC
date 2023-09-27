@@ -1,5 +1,5 @@
 public class AccountTriggerHandler {
-    //***Task 1:- Create multiple Contacts on insert,update and delete according to of No of contacts field in Account(While Insert)....
+    //***Task :- Create multiple Contacts on insert,update and delete according to of No of contacts field in Account(While Insert)....
     public static void createMultipleContact(list<Account> newAccList,Map<Id,Account> oldAccMap){
         list<contact> conList = new list<contact>();
         for(Account ac: newAccList){
@@ -14,7 +14,7 @@ public class AccountTriggerHandler {
             insert conList;      
     }
     
-    //***Task 2 :- Create multiple Contacts on update and delete Contacts according to of No of contacts field in Account(While Update)....
+    //***Task :- Create multiple Contacts on update and delete Contacts according to of No of contacts field in Account(While Update)....
     public static void updateMultipleContact(List<Account> newAccList,Map<Id,Account> oldAccMap){
         Set<Id> accIdSet = new Set<Id>();
         Map<Id,List<Contact>> accConMap = new Map<Id,List<Contact>>();

@@ -22,7 +22,7 @@ export default class ComboboxWithDatatable extends LightningElement {
   connectedCallback() {
     getAccounts().then((result) => {
       let arr = [];
-      for (var i = 0; i < result.length; i++) {
+      for (let i = 0; i < result.length; i++) {
         arr.push({ label: result[i].Name, value: result[i].Id });
       }
       this.accOptions = arr;

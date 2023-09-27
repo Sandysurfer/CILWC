@@ -7,7 +7,7 @@ public class LightningDataTableController {
     
     @AuraEnabled(cacheable = true)
     public static List<Account> getAccountList(){
-        List<Account> accountList = [Select Id, Name From Account]; 
+        List<Account> accountList = [Select Id, Name,Type From Account]; 
         return accountList;
     }
     

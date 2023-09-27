@@ -1,106 +1,69 @@
 <template>
-  <lightning-card
-    variant="Narrow"
-    title="Call Apex Using Imperative Method"
-    icon-name="custom:custom46"
-  >
-    <!--Show Account Record With Industry Details-->
-    <lightning-button
-      variant="brand"
-      label="Get Accounts"
-      onclick={handleClick1}
-      class="slds-m-left_x-small"
-    ></lightning-button>
 
-    <template if:true={accountRecords}>
-      <template for:each={accountRecords} for:item="accObj">
-        <p key={accObj.Id}>{accObj.Name}</p>
-        <p key={accObj.Id}>{accObj.Industry}</p>
-      </template>
-    </template>
-    <br />
+    <lightning-card variant="Narrow" title="Call Apex Using Imperative Method" icon-name="custom:custom46">
 
-    <!--Display Clients Records with related Addresses Details-->
-    <div class="slds-m-top_small">
-      <lightning-button
-        variant="brand"
-        label="Get ClientsAddress"
-        onclick={handleClick2}
-        class="slds-m-left_x-small"
-      ></lightning-button>
-    </div>
-    <template if:true={clientRecords}>
-      <template for:each={clientRecords} for:item="clientObj">
-        <template if:true={clientObj.Addresses__r}>
-          <p key={clientObj.Id}>{clientObj.First_Name__c}</p>
-          <template for:each={clientObj.Addresses__r} for:item="addressObj">
-            <p key={addressObj.Id}>{addressObj.Country__c}</p>
-          </template>
+        <!--Show Account Record With Industry Details-->
+        <lightning-button variant="brand" label="Get Accounts" onclick={handleClick1}
+            class="slds-m-left_x-small"></lightning-button>
+
+        <template if:true={accountRecords}>
+            <template for:each={accountRecords} for:item="accObj">
+                <p key={accObj.Id}>{accObj.Name}</p>
+                <p key={accObj.Id}>{accObj.Industry}</p>
+            </template>
         </template>
-      </template>
-    </template>
-    <br />
+        <br />
 
-    <!--Search Contact according to input search text-->
-    <lightning-input
-      type="text"
-      label="Enter Search text"
-      value={searchKey}
-      onchange={handleSearchChange}
-      class="slds-m-left_x-small"
-    ></lightning-input>
-    <div class="slds-m-top_small">
-      <lightning-button
-        variant="brand"
-        label="Get Contacts"
-        onclick={handleClick}
-        class="slds-m-left_x-small"
-      ></lightning-button>
-    </div>
-    <template if:true={contacts}>
-      <template for:each={contacts} for:item="conObj">
-        <div key={conObj.Id}>
-          <p>{conObj.FirstName} {conObj.LastName}</p>
-          <p>{conObj.Phone}</p>
-          <p>{conObj.Email}</p>
+        <!--Display Clients Records with related Addresses Details-->
+        <div class="slds-m-top_small">
+            <lightning-button variant="brand" label="Get ClientsAddress" onclick={handleClick2}
+                class="slds-m-left_x-small"></lightning-button>
         </div>
-      </template>
-    </template>
+        <template if:true={clientRecords}>
+            <template for:each={clientRecords} for:item="clientObj">
+                <template if:true={clientObj.Addresses__r}>
+                    <p key={clientObj.Id}>{clientObj.First_Name__c}</p>
+                    <template for:each={clientObj.Addresses__r} for:item="addressObj">
+                        <p key={addressObj.Id}>{addressObj.Country__c}</p>
+                    </template>
+                </template>
+            </template>
+        </template>
+        <br />
 
-    <!--Create Client Record by passing data from lwc to apex through Parameter -->
-    <lightning-input
-      type="text"
-      label="Enter First Name"
-      onchange={handleFirstNameChange}
-      class="slds-m-left_x-small"
-    ></lightning-input>
-    <lightning-input
-      type="text"
-      label="Enter Last Name"
-      onchange={handleLastNameChange}
-      class="slds-m-left_x-small"
-    ></lightning-input>
-    <lightning-input
-      type="text"
-      label="Enter Email Address"
-      onchange={handleEmailChange}
-      class="slds-m-left_x-small"
-    ></lightning-input>
-    <div class="slds-m-top_medium">
-      <lightning-button
-        variant="brand"
-        label="Create Client Record"
-        onclick={handleCreateClient}
-        class="slds-m-left_x-small"
-      ></lightning-button>
-    </div>
+        <!--Search Contact according to input search text-->
+        <lightning-input type="text" label="Enter Search text" value={searchKey} onchange={handleSearchChange}
+            class="slds-m-left_x-small"></lightning-input>
+        <div class="slds-m-top_small">
+            <lightning-button variant="brand" label="Get Contacts" onclick={handleClick}
+                class="slds-m-left_x-small"></lightning-button>
+        </div>
+        <template if:true={contacts}>
+            <template for:each={contacts} for:item="conObj">
+                <div key={conObj.Id}>
+                    <p>{conObj.FirstName} {conObj.LastName}</p>
+                    <p>{conObj.Phone}</p>
+                    <p>{conObj.Email}</p>
+                </div>
+            </template>
+        </template>
 
-    <!--Passing List of Account Array From LWC to Apex-->
-    <div class="slds-p-around_medium">
-      <lightning-button
-        label="Send Account Array to Apex"
-        onclick={handleAccountArray}
-      ></lightning-button>
-    </div>
-  </lightning-card>
+        <!--Create Client Record by passing data from lwc to apex through Parameter -->
+        <lightning-input type="text" label="Enter First Name" onchange={handleFirstNameChange}
+            class="slds-m-left_x-small"></lightning-input>
+        <lightning-input type="text" label="Enter Last Name" onchange={handleLastNameChange}
+            class="slds-m-left_x-small"></lightning-input>
+        <lightning-input type="text" label="Enter Email Address" onchange={handleEmailChange}
+            class="slds-m-left_x-small"></lightning-input>
+        <div class="slds-m-top_medium">
+            <lightning-button variant="brand" label="Create Client Record" onclick={handleCreateClient}
+                class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+        <!--Passing List of Account Array From LWC to Apex-->
+        <div class="slds-p-around_medium">
+            <lightning-button label="Send Account Array to Apex" onclick={handleAccountArray}></lightning-button>
+        </div>
+
+    </lightning-card>
 </template>

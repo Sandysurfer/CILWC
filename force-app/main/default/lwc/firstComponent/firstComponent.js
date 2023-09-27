@@ -1,46 +1,44 @@
-import { LightningElement } from "lwc";
+import { LightningElement } from 'lwc';
 
 export default class FirstComponent extends LightningElement {
-  paramAddition(a, b) {
-    //function with paramters..
+  paramAddition(a, b) {  //function with paramters..
     let sum = a + b;
     return sum;
   }
 
-  returnFunction() {
-    //function without paramters..
-    return 3 + 2;
+  returnFunction() {  //function without paramters..
+    return (3 + 2);
   }
 
   connectedCallback() {
     var result = this.returnFunction();
-    console.log("Result-->" + result);
+    console.log('Result-->' + result);
+    
+//Functions with parameter to perform Mathematical Operations....
+function sum(x, y) {
+  return x + y;
+}
 
-    //Functions with parameter to perform Mathematical Operations....
-    function sum(x, y) {
-      return x + y;
-    }
+function sub(x, y) {
+  return x - y;
+}
 
-    function sub(x, y) {
-      return x - y;
-    }
+function mul(x, y) {
+  return x * y;
+}
 
-    function mul(x, y) {
-      return x * y;
-    }
+function div(x, y) {
+  return x / y;
+}
 
-    function div(x, y) {
-      return x / y;
-    }
-
-    //Generic Function....
-    function calculatorfunction(fn, x, y) {
-      return fn(x, y);
-    }
-    console.log("sum-->", calculatorfunction(sum, 10, 7));
-    console.log("sub-->", calculatorfunction(sub, 20, 10));
-    console.log("mul-->", calculatorfunction(mul, 30, 6));
-    console.log("div-->", calculatorfunction(div, 40, 5));
+//Generic Function....
+function calculatorfunction(fn, x, y) {
+  return fn(x, y);
+}
+console.log("sum-->", calculatorfunction(sum, 10, 7));
+console.log("sub-->", calculatorfunction(sub, 20, 10));
+console.log("mul-->", calculatorfunction(mul, 30, 6));
+console.log("div-->", calculatorfunction(div, 40, 5));
 
     // Diff Between let, var, const.....
     // var a;
@@ -235,6 +233,7 @@ export default class FirstComponent extends LightningElement {
     //     console.log(currNum, numArray[currNum]);
     // }
 
+
     // //2.)Array of string....
     // let myCars = ["Audi","Lambo","Bmw","Ferrari"];
 
@@ -252,7 +251,7 @@ export default class FirstComponent extends LightningElement {
     // //using for of loop..
     // for(let currStr of myCars){
     //     console.log('Cars in Array--->'+currStr);
-    // }
+    // } 
 
     // //Access index,value of string..
     // for(let currStr of myCars.entries()){
@@ -263,30 +262,30 @@ export default class FirstComponent extends LightningElement {
     // for(let currStr in myCars){
     //     console.log(myStr, myCars[currStr]);
 
-    // }
+    // } 
 
     //Objects in Javascript....
     var obj = {
-      name: "Sandy",
-      28: "age",
-      Phone: [8888, 9999],
-      parent: {
-        mom: "raj",
-        dad: "vijay"
+      'name': 'Sandy',
+      28: 'age',
+      'Phone': [8888, 9999],
+      'parent': {
+        'mom': 'raj',
+        'dad': 'vijay'
       },
-      true: "male",
-      arr: [{ hello: "ci8" }, { Welcome: "LWC" }]
+      true: 'male',
+      'arr': [{ 'hello': 'ci8' }, { 'Welcome': 'LWC' }]
     };
 
-    console.log("name-->" + obj.name);
-    console.log("phone-->" + obj.name);
-    console.log("family-->" + JSON.stringify(obj.parent));
+    console.log('name-->' + obj.name);
+    console.log('phone-->' + obj.name);
+    console.log('family-->' + JSON.stringify(obj.parent));
     let calcResult = this.paramAddition(6, 4);
     console.log(calcResult);
-    console.log("mother-->" + obj.parent.mom);
-    console.log("arr--->" + obj.arr[0].hello);
-    console.log("age--->" + obj[28]);
-    console.log("boolean-->" + obj.true);
+    console.log('mother-->' + obj.parent.mom);
+    console.log('arr--->' + obj.arr[0].hello);
+    console.log('age--->' + obj[28]);
+    console.log('boolean-->' + obj.true);
 
     //Task 1:-
     var object = {
@@ -298,18 +297,18 @@ export default class FirstComponent extends LightningElement {
             title: "JSON:API paints my bikeshed!",
             body: "The shortest article. Ever.",
             created: "2015-05-22T14:56:29.000Z",
-            updated: "2015-05-22T14:56:28.000Z"
+            updated: "2015-05-22T14:56:28.000Z",
           },
-          relationships: { author: { data: { id: "42", type: "people" } } }
-        }
+          relationships: { author: { data: { id: "42", type: "people" } } },
+        },
       ],
       included: [
         {
           type: "people",
           id: "42",
-          attributes: { name: "John", age: 80, gender: "male" }
-        }
-      ]
+          attributes: { name: "John", age: 80, gender: "male" },
+        },
+      ],
     };
 
     console.log("title--->" + object.data[0].attributes.title);
@@ -327,17 +326,17 @@ export default class FirstComponent extends LightningElement {
             title: "JSON:API paints my bikeshed!",
             body: "The shortest article. Ever.",
             created: "2015-05-22T14:56:29.000Z",
-            updated: "2015-05-22T14:56:28.000Z"
-          }
-        }
+            updated: "2015-05-22T14:56:28.000Z",
+          },
+        },
       ],
       links: {
         self: "http://example.com/articles?page[number]=3&page[size]=1",
         first: "http://example.com/articles?page[number]=1&page[size]=1",
         prev: "http://example.com/articles?page[number]=2&page[size]=1",
         next: "http://example.com/articles?page[number]=4&page[size]=1",
-        last: "http://example.com/articles?page[number]=13&page[size]=1"
-      }
+        last: "http://example.com/articles?page[number]=13&page[size]=1",
+      },
     };
     console.log("body--->" + object.data[0].attributes.body);
     console.log("next--->" + object.links.next);
@@ -348,75 +347,71 @@ export default class FirstComponent extends LightningElement {
         {
           status: "403",
           source: { pointer: "/data/attributes/secretPowers" },
-          detail: "Editing secret powers is not authorized on Sundays."
+          detail: "Editing secret powers is not authorized on Sundays.",
         },
         {
           status: "422",
           source: { pointer: "/data/attributes/volume" },
-          detail: "Volume does not, in fact, go to 11."
+          detail: "Volume does not, in fact, go to 11.",
         },
         {
           status: "500",
           source: { pointer: "/data/attributes/reputation" },
           title: "The backend responded with an error",
-          detail: "Reputation service not responding after three requests."
-        }
-      ]
+          detail: "Reputation service not responding after three requests.",
+        },
+      ],
     };
 
-    console.log("source status--->" + object.errors[1].status);
+    console.log('source status--->' + object.errors[1].status);
 
-    //Task 4:-
+    //Task 4:-   
     var obj = {
-      glossary: {
-        title: "example glossary",
-        GlossDiv: {
-          title: "S",
-          GlossList: {
-            GlossEntry: {
-              ID: "SGML",
-              SortAs: "SGML",
-              GlossTerm: "Standard Generalized Markup Language",
-              Acronym: "SGML",
-              Abbrev: "ISO 8879:1986",
-              GlossDef: {
-                para: "A meta-markup language, used to create markup languages such as DocBook.",
-                GlossSeeAlso: ["GML", "XML"]
+      "glossary": {
+        "title": "example glossary",
+        "GlossDiv": {
+          "title": "S",
+          "GlossList": {
+            "GlossEntry": {
+              "ID": "SGML",
+              "SortAs": "SGML",
+              "GlossTerm": "Standard Generalized Markup Language",
+              "Acronym": "SGML",
+              "Abbrev": "ISO 8879:1986",
+              "GlossDef": {
+                "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                "GlossSeeAlso": ["GML", "XML"]
               },
-              GlossSee: "markup"
+              "GlossSee": "markup"
             }
           }
         }
       }
-    };
-    console.log(
-      "glossaryseeAlso--->" +
-        obj.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso
-    );
-    const glossSeeAlsoArray =
-      obj.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso;
+    }
+    console.log('glossaryseeAlso--->' + obj.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso);
+    const glossSeeAlsoArray = obj.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso;
 
-    for (let i = 0; i < glossSeeAlsoArray.length; i++) {
+    for (let i = 0; i<glossSeeAlsoArray.length; i++) {
       const term = glossSeeAlsoArray[i];
-      console.log("seeAlsoterm-->" + term);
+      console.log("seeAlsoterm-->"+term);
     }
 
     //Task 5:-
     var object = {
-      menu: {
-        id: "file",
-        value: "File",
-        popup: {
-          menuitem: [
-            { value: "New", onclick: "CreateNewDoc()" },
-            { value: "Open", onclick: "OpenDoc()" },
-            { value: "Close", onclick: "CloseDoc()" }
+      "menu": {
+        "id": "file",
+        "value": "File",
+        "popup": {
+          "menuitem": [
+            { "value": "New", "onclick": "CreateNewDoc()" },
+            { "value": "Open", "onclick": "OpenDoc()" },
+            { "value": "Close", "onclick": "CloseDoc()" }
           ]
         }
       }
-    };
+    }
     const menuItemsObj = object.menu.popup.menuitem;
-    console.log("menuItems-->" + JSON.stringify(menuItemsObj));
+    console.log("menuItems-->"+JSON.stringify(menuItemsObj));
 
     for (let i = 0; i < menuItemsObj.length; i++) {
       if (menuItemsObj[i].value === "Open") {
@@ -424,5 +419,7 @@ export default class FirstComponent extends LightningElement {
         console.log("OpenDoc Value--->" + openDocValue);
       }
     }
+
   }
+
 }

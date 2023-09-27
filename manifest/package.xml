@@ -5,6 +5,7 @@
 		<members>ClientHandler</members>
 		<members>ContactTriggerHandler</members>
 		<members>OpportunityTriggerHandler</members>
+		<members>CustomUserLoginController</members>
 		<name>ApexClass</name>
 	</types>
     <types>

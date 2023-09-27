@@ -1,75 +1,55 @@
 <template>
-  <lightning-card title="ApexWireMethodToProperty" icon-name="standard:account">
-    <div class="slds-m-around_medium">
-      <!--Wire as property Without parameters-->
-      <template lwc:if={accounts.data}>
-        <template for:each={accounts.data} for:item="acc">
-          <p key={acc.Id}>{acc.Name}</p>
-          <p key={acc.Id}>{acc.Industry}</p>
-        </template>
-      </template>
-      <template lwc:elseif={accounts.error}> {accounts.error} </template>
-    </div>
-  </lightning-card>
+    <lightning-card title="ApexWireMethodToProperty" icon-name="standard:account">
+        <div class="slds-m-around_medium">
 
-  <!--Wire as property with parameters-->
-  <lightning-card title="ApexWireMethodToProperty" icon-name="standard:contact">
-    <div class="slds-m-around_medium">
-      <lightning-input
-        type="text"
-        label="Enter Contact Name"
-        value={searchContactKey}
-        onchange={handleContactChange}
-      ></lightning-input>
-      <template lwc:if={contacts.data}>
-        <template for:each={contacts.data} for:item="con">
-          <p key={con.Id}>{con.Name}</p>
-          <p key={con.Id}>{con.Phone}</p>
-          <p key={con.Id}>{con.Email}</p>
-        </template>
-      </template>
-      <template lwc:elseif={contacts.error}> {contacts.error} </template>
-    </div>
-  </lightning-card>
+            <!--Wire as property Without parameters-->
+            <template lwc:if={accounts.data}>
+                <template for:each={accounts.data} for:item="acc">
+                    <p key={acc.Id}>{acc.Name}</p>
+                    <p key={acc.Id}>{acc.Industry}</p>
+                </template>
+            </template>
+            <template lwc:elseif={accounts.error}>
+                {accounts.error}
+            </template>
+        </div>
+    </lightning-card>
 
-  <!---Wire as function with parameters-->
-  <lightning-card title="ApexWireMethodToFunction" icon-name="standard:account">
-    <div class="slds-m-around_medium">
-      <lightning-input
-        type="text"
-        label="Enter Account Name"
-        value={searchAccountKey}
-        onchange={handleAccountChange}
-      ></lightning-input>
-      <template for:each={accList} for:item="acc">
-        <p key={acc.Id}>{acc.Name}</p>
-        <p key={acc.Id}>{acc.Industry}</p>
-      </template>
-    </div>
-  </lightning-card>
+            <!--Wire as property with parameters-->
+            <lightning-card title="ApexWireMethodToProperty" icon-name="standard:contact">
+                <div class="slds-m-around_medium">
+            <lightning-input type="text" label="Enter Contact Name" value={searchContactKey}
+                onchange={handleContactChange}></lightning-input>
+            <template lwc:if={contacts.data}>
+                <template for:each={contacts.data} for:item="con">
+                    <p key={con.Id}>{con.Name}</p>
+                    <p key={con.Id}>{con.Phone}</p>
+                    <p key={con.Id}>{con.Email}</p>
+                </template>
+            </template>
+            <template lwc:elseif={contacts.error}>
+                {contacts.error}
+            </template>
+        </div>
+    </lightning-card>
 
-  <!--Wire as function Without Parameters-->
-  <lightning-card
-    variant="Narrow"
-    title="Wire as Function"
-    icon-name="custom:custom46"
-  >
-    <template if:true={accountRecords}>
-      <template for:each={accountRecords} for:item="accObj">
-        <lightning-layout key={accObj.id} class="slds-var-m-vertical_x-small">
-          <lightning-layout-Item>
-            {accObj.Name} ->{accObj.Industry}</lightning-layout-Item
-          >
-        </lightning-layout>
-      </template>
-    </template>
-    <template if:true={accountError}> {accountError} </template>
-  </lightning-card>
 
-  <!--Passing Array of Account From LWC to Apex Method-->
-  <lightning-card title="ApexWireMethodToFunction" icon-name="standard:account">
+    <!---Wire as function with parameters-->
+    <lightning-card title="ApexWireMethodToFunction" icon-name="standard:account">
+        <div class="slds-m-around_medium">
+            <lightning-input type="text" label="Enter Account Name" value={searchAccountKey}
+                onchange={handleAccountChange}></lightning-input>
+            <template for:each={accList} for:item="acc">
+                <p key={acc.Id}>{acc.Name}</p>
+                <p key={acc.Id}>{acc.Industry}</p>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!--Passing New Account Array From LWC to Apex-->
+    <lightning-card title="ApexWireMethodToFunction" icon-name="standard:account">
     <div class="slds-p-around_medium">
-      <P>New Accounts : {newAccList}</P>
+        <P>New Accounts : {newAccList}</P>
     </div>
-  </lightning-card>
+    </lightning-card>
 </template>

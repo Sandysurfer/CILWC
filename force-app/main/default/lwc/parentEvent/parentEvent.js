@@ -1,9 +1,9 @@
-import { LightningElement } from "lwc";
+import { LightningElement } from 'lwc';
 
 export default class ParentLWC extends LightningElement {
-  fullName;
+    fullName;
 
-  handleFullname(event) {
-    this.fullName = event.detail.firstname + " " + event.detail.lastname;
-  }
+    handleFullname(event) {
+        this.fullName = event.detail.firstname+' '+event.detail.lastname;
+    }
 }

@@ -1,11 +1,33 @@
 <template>
-    <lightning-card title="Salesforce Login Screen" icon-name="standard:user" variant="base">
-        <div class="slds-m-around_medium">
-            <lightning-input class="slds-m-bottom_x-small" label="Username" value={username}
-                onchange={handleUsernameChange}></lightning-input>
-            <lightning-input class="slds-m-bottom_x-small" type="password" label="Password" value={password}
-                onchange={handlePasswordChange}></lightning-input>
-            <lightning-button variant="brand" label="Login" onclick={handleLogin}></lightning-button>
-        </div>
-    </lightning-card>
+    <!--Main Login Screen Component-->
+    <template if:false={isSigningUp}>
+        <lightning-card title="Salesforce Login Screen" icon-name="standard:user" variant="base">
+            <div class="slds-m-around_medium">
+                <lightning-input class="slds-m-bottom_x-small" label="Username" value={username}
+                    onchange={handleUsernameChange}></lightning-input>
+                <lightning-input class="slds-m-bottom_x-small" type="password" label="Password" value={password}
+                    onchange={handlePasswordChange}></lightning-input>
+
+                <lightning-button variant="brand" label="Login" onclick={handleLogin}></lightning-button>
+                <lightning-button variant="neutral" label="Sign Up" onclick={showSignUp}></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+
+    <!--New User Registration Screen Component-->
+    <template if:true={isSigningUp}>
+        <lightning-card title="New User Registration" icon-name="standard:user" variant="narrow">
+            <div class="slds-m-around_medium">
+                <lightning-input class="slds-m-bottom_x-small" label="Username" value={newusername}
+                    onchange={handleNewUsernameChange}></lightning-input>
+                <lightning-input class="slds-m-bottom_x-small" label="Password" type="password" value={newpassword}
+                    onchange={handleNewPasswordChange}></lightning-input>
+                <lightning-input class="slds-m-bottom_x-small" label="Confirm Password" type="password"
+                    value={confirmpassword} onchange={handleConfirmPasswordChange}></lightning-input>
+
+                <lightning-button variant="success" label="Register" onclick={handleSignUp}></lightning-button>
+                <lightning-button variant="neutral" label="Back to Login" onclick={showLogin}></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
 </template>

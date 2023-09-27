@@ -10,13 +10,14 @@ export default class LwcCombobox extends LightningElement {
     return this.accOptions;
   }
   connectedCallback() {
-    getAccounts().then((result) => {
-      let arr = [];
-      for (let i = 0; i < result.length; i++) {
-        arr.push({ label: result[i].Name, value: result[i].Id });
-      }
-      this.accOptions = arr;
-    });
+    getAccounts()
+      .then(result => {
+        let arr = [];
+        for (let i = 0; i < result.length; i++) {
+          arr.push({ label: result[i].Name, value: result[i].Id });
+        }
+        this.accOptions = arr;
+      });
   }
   handleChange(event) {
     this.value = event.detail.value;

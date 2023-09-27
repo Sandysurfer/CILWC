@@ -7,7 +7,9 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
-            <property name="name" type="String" label="Name"/>
+            <property name="accName" type="String" label="Account Name"/>
+            <property name="accCount" type="Integer" label="Account Count"/>
+            <property name="accountRecords" type="@salesforce/schema/Account[]" label="Account List" role="inputOnly"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
