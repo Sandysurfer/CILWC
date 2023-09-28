@@ -92,13 +92,14 @@ export default class LoginComponent extends LightningElement {
                     console.log('Error Message' + error);
                     this.showToast('Error', 'An error occurred during signup', 'error');
                 });
-        } else {
+        } 
+        else {
             this.showToast('Error', 'Password and Confirm Password do not match', 'error');
         }
 
     }
 
-    //Resusing Toast Message Component....
+    //Reusing Toast Message Component....
     showToast(title, message, variant) {
         const toastEvent = new ShowToastEvent({
             title: title,

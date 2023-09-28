@@ -4,7 +4,7 @@ import { updateRecord } from "lightning/uiRecordApi";
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
-import getContactList from "@salesforce/apex/ContactDataTableController.getContactList";
+import getContactList from "@salesforce/apex/CallApexUsingWireMethod.getContactList";
 import FIRST_NAME_FIELD from "@salesforce/schema/Contact.FirstName";
 import LAST_NAME_FIELD from "@salesforce/schema/Contact.LastName";
 import PHONE_FIELD from "@salesforce/schema/Contact.Phone";

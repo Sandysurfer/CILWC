@@ -20,7 +20,7 @@ export default class WrapperClassDemo extends LightningElement {
 
     //Sending Object from Lwc to Apex Wrapper (Using Imperative method)......
     contacts = [];
-    error;
+    errorRecord;
 
     handleClick() {
         var conData =
@@ -31,7 +31,7 @@ export default class WrapperClassDemo extends LightningElement {
         };
         this.contacts.push(conData);
 
-        var accData =
+        let accData =
         {
             Name: 'NagpurFoods',
             NoOfContacts: 2,
@@ -44,7 +44,7 @@ export default class WrapperClassDemo extends LightningElement {
                 console.log('Data:' + JSON.stringify(this.createdAccount));
             }).catch(error => {
                 console.log(error);
-                this.error = error;
+                this.errorRecord = error;
             });
     }
 }

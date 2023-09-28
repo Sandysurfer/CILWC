@@ -19,6 +19,7 @@ export default class ComboboxWithDatatable extends LightningElement {
   get options() {
     return this.accOptions;
   }
+
   connectedCallback() {
     getAccounts().then((result) => {
       let arr = [];
@@ -42,7 +43,7 @@ export default class ComboboxWithDatatable extends LightningElement {
         this.data = result;
       })
       .catch((error) => {
-        window.alert("error:" + error);
+        //window.alert("error:" + error);
       });
   }
 }
