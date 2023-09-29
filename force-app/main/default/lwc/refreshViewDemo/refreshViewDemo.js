@@ -2,7 +2,7 @@
 import { LightningElement, api } from 'lwc';
 import { RefreshEvent } from 'lightning/refresh';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import updateAccountName from '@salesforce/apex/AccountNameRefreshHandler.updateAccountName';
+import updateAccountName from '@salesforce/apex/AccountUpdateRefreshHandler.updateAccountName';
 
 export default class RefreshAccountData extends LightningElement {
     @api recordId;
