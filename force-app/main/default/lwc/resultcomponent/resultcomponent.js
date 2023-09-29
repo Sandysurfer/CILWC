@@ -5,7 +5,7 @@ export default class ResultComponent extends LightningElement {
     empfname;
     emplname;
 
-    handleSubmit(event) {
+    handleSubmit() {
         //When we want input data on clicking of button (Replacement of multiple-->event.target.value...
 
         //For single lightning-input....
@@ -16,10 +16,10 @@ export default class ResultComponent extends LightningElement {
 
         input.forEach(function (element) {
 
-            if (element.name == 'fname') {
+            if (element.name === 'fname') {
                 this.empfname = element.value;
             }
-            else if (element.name == 'lname') {
+            else if (element.name === 'lname') {
                 this.emplname = element.value;
             }
 

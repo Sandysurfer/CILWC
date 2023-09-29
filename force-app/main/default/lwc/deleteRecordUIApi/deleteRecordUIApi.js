@@ -18,6 +18,7 @@ export default class DeleteRecordImperative extends NavigationMixin(LightningEle
           state: {
             filterName: "recent"
           }
+          
         });
       })
       .catch((error) => {

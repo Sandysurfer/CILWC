@@ -73,6 +73,7 @@ export default class SearchDatatable extends NavigationMixin(LightningElement) {
         break;
     }
   }
+  
   deleteAccount(currentRow) {
     deleteAccount({ accObj: currentRow })
       .then(() => {
