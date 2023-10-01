@@ -70,7 +70,7 @@ export default class LoginComponent extends LightningElement {
                 .then(result => {
                     if (result === 'User created successfully') {
                         console.log('New User Registration Successful-->' + result);
-                        this.showToast('Welcome to Salesforce', 'New User Registration successful.', 'success');
+                        this.showToast('Welcome to Salesforce', 'New User Registration successful.', 'success', 'dismissable');
 
                         //Reseting the registration form fields here
                         this.newusername = '';
@@ -82,29 +82,30 @@ export default class LoginComponent extends LightningElement {
 
                     } else if (result === 'Username already exists') {
                         console.log('User Already Registered-->' + result);
-                        this.showToast('User Already Registered', 'Username already exists. Please choose a different username.', 'error');
+                        this.showToast('User Already Registered', 'Username already exists. Please choose a different username.', 'error', 'dismissable');
                     } else {
                         console.log('Unknown Error-->' + result);
-                        this.showToast('Error', 'An unknown error occurred during signup', 'error');
+                        this.showToast('Error', 'An unknown error occurred during signup', 'error', 'dismissable');
                     }
                 })
                 .catch(error => {
                     console.log('Error Message' + error);
-                    this.showToast('Error', 'An error occurred during signup', 'error');
+                    this.showToast('Error', 'An error occurred during signup', 'error', 'dismissable');
                 });
-        } 
+        }
         else {
-            this.showToast('Error', 'Password and Confirm Password do not match', 'error');
+            this.showToast('Error', 'Password and Confirm Password do not match', 'error', 'dismissable');
         }
 
     }
 
     //Reusing Toast Message Component....
-    showToast(title, message, variant) {
+    showToast(title, message, variant, mode) {
         const toastEvent = new ShowToastEvent({
             title: title,
             message: message,
             variant: variant,
+            mode: mode,
         });
         this.dispatchEvent(toastEvent);
     }

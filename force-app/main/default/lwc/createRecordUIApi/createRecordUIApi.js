@@ -34,7 +34,7 @@ export default class CreateRecordImperative extends LightningElement {
     //Step 2:Create api Record With Field values..
     const recordData = { apiName: "Account", fields };
 
-    //Step 3:Create Record using imperation method and display toast message on creation....
+    //Step 3:Create Record using LDS(uiRecordApi) method and display toast message on creation....
     createRecord(recordData)
       .then((result) => {
         console.log('Created Account Record', JSON.stringify(result));
@@ -43,7 +43,8 @@ export default class CreateRecordImperative extends LightningElement {
           new ShowToastEvent({
             title: "Success",
             message: "Account created",
-            variant: "success"
+            variant: "success",
+            mode: 'dismissable'
           })
         );
       })

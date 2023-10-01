@@ -27,7 +27,8 @@ export default class CreateRecordUsingApex extends LightningElement {
                     new ShowToastEvent({
                       title: "Success",
                       message: "Client Record created Successfully",
-                      variant: "success"
+                      variant: "success",
+                      mode: 'dismissable'
                     })
                   );
             })

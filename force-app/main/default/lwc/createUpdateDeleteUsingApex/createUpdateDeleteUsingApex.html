@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="Create Update Delete Records" icon-name="action:new_lead">
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+        </template>
+        <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
+            <lightning-input type="text" name="clientname" label="Client Name"
+                onchange={handleChange}></lightning-input>
+        </div>
+        <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
+            <lightning-input type="text" name="phone" label="Phone" onfocus={handleChange}></lightning-input>
+        </div>
+        <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
+            <lightning-input type="text" name="email" label="Email" onfocus={handleChange}></lightning-input>
+        </div>
+        <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
+            <lightning-combobox name="progress" label="Status" value="" placeholder="Select Progress"
+                options={clientStatus} onchange={handleChange}></lightning-combobox>
+        </div>
+        <div class="slds-p-around_medium lgc-bg slds-m-left_large">
+            <lightning-button label="Save" variant="brand" onclick={handleSave}></lightning-button>
+            <!--Handling Naviagtion Mixin in Custom tab of Client Form-->
+            <lightning-button class="slds-m-left_small" label="New" variant="brand"
+                onclick={navigateonrecordsNew}></lightning-button>
+            <lightning-button class="slds-m-left_small" label="View" variant="brand"
+                onclick={navigateonrecordsView}></lightning-button>
+            <lightning-button class="slds-m-left_small" label="List" variant="brand"
+                onclick={navigateonrecordsList}></lightning-button>
+            <lightning-button class="slds-m-left_small" label="Edit" variant="brand"
+                onclick={navigateonrecordsedit}></lightning-button>
+            <lightning-button class="slds-m-left_small" label="Home" variant="brand"
+                onclick={navigateonrecordsHome}></lightning-button>
+            <lightning-button class="slds-m-left_small" label="Tab Customer" variant="brand"
+                onclick={navigateonrecordsTabCustomer}></lightning-button>
+            <lightning-button class="slds-m-left_small" label="URL" variant="brand"
+                onclick={navigateonrecordsURL}></lightning-button>
+        </div>
+
+    </lightning-card>
+</template>

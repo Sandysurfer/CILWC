@@ -15,10 +15,6 @@ export default class DeleteRecordImperative extends NavigationMixin(LightningEle
             objectApiName: "Contact",
             actionName: "home"
           },
-          state: {
-            filterName: "recent"
-          }
-          
         });
       })
       .catch((error) => {
