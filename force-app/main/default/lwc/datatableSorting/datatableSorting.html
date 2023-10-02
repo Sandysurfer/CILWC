@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Sorting in Lightning-Datatable LWC" icon-name="standard:contact">
+        <div style="width: auto;">
+            <template if:true={data}>
+                <lightning-datatable key-field="Id" data={data} columns={columns} sorted-by={sortBy}
+                    sorted-direction={sortDirection} onsort={doSorting} hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+            <template if:true={error}>
+                {error}
+            </template>
+        </div>
+    </lightning-card>
+</template>
