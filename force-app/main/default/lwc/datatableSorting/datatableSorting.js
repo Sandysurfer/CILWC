@@ -1,5 +1,6 @@
 import { LightningElement, track, wire } from 'lwc';
 import getContactList from '@salesforce/apex/LightningDataTableController.getContactList';
+
 const columns = [
     { label: 'First Name', fieldName: 'FirstName', type: 'text', editable: 'true', sortable: 'true' },
     { label: 'Last Name', fieldName: 'LastName', type: 'text', editable: 'true', sortable: 'true' },
@@ -28,6 +29,7 @@ export default class DatatableSorting extends LightningElement {
         }
     }
 
+    //Performing Sorting Operation in datatable without using apex server side....
     doSorting(event) {
         this.sortBy = event.detail.fieldName;
         this.sortDirection = event.detail.sortDirection;
@@ -43,9 +45,9 @@ export default class DatatableSorting extends LightningElement {
         //checking reverse direction
         let isReverse = direction === 'asc' ? 1 : -1;
 
-        //sorting Data
+        //sorting Data....
         parseData.sort((x, y) => {
-            x = keyValue(x) ? keyValue(x) : '';  //handling null values..
+            x = keyValue(x) ? keyValue(x) : '';  //using ternary opeartor to avoid null values..
             y = keyValue(y) ? keyValue(y) : '';
 
             //sorting values based on direction

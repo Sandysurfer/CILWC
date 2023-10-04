@@ -34,6 +34,14 @@ export default class CreateRecordImperative extends LightningElement {
     //Step 2:Create api Record With Field values..
     const recordData = { apiName: "Account", fields };
 
+   // getting field values by importing fields from @salesforce/schema/Account.fieldName.. 
+    /* const fields = {};
+    fields[NAME_FIELD.fieldApiName] = this.name;
+    fields[PHONE_FIELD.fieldApiName] = this.phone;
+    fields[INDUSTRY_FIELD.fieldApiName] = this.industry;
+
+    const recordData = { apiName: ACCOUNT_OBJECT.objectApiName, fields };*/
+
     //Step 3:Create Record using LDS(uiRecordApi) method and display toast message on creation....
     createRecord(recordData)
       .then((result) => {
