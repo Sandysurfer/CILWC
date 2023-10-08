@@ -20,8 +20,9 @@ const COLS = [
 
 export default class LwcDatatable extends LightningElement {
   columns = COLS;
-  @wire(getContactList) contacts;
   draftValues = []; //When a user edits a cell, the updated value is stored in draft-values.
+
+  @wire(getContactList) contacts;
 
   handleSave(event) {
     const updatedRecord = event.detail.draftValues[0];
@@ -53,8 +54,8 @@ export default class LwcDatatable extends LightningElement {
 
         // Display fresh data in the datatable...
         return refreshApex(this.contacts);
-        })
-        .catch((error) => {
+      })
+      .catch((error) => {
         this.dispatchEvent(
           new ShowToastEvent({
             title: "Error updating or reloading contacts",

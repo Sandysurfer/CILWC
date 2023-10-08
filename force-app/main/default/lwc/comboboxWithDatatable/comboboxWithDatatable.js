@@ -3,9 +3,9 @@ import getAccounts from "@salesforce/apex/CallApexUsingImperative.getAccounts";
 import getContacts from "@salesforce/apex/CallApexUsingImperative.getContacts";
 
 const COLS = [
-  { label: "Contacts Name", fieldName: "Name" },
-  { label: "Contacts Phone", fieldName: "Phone" },
-  { label: "Contacts Email", fieldName: "Email" }
+  { label: "Name", fieldName: "Name" },
+  { label: "Phone", fieldName: "Phone" },
+  { label: "Email", fieldName: "Email" }
 ];
 
 export default class ComboboxWithDatatable extends LightningElement {
@@ -31,19 +31,19 @@ export default class ComboboxWithDatatable extends LightningElement {
   }
 
   handleChange(event) {
-    //When Account is selected the card will display related contacts in datatable..
+    //When Account is selected then below card will display related contacts in datatable..
     this.cardVisible = true;
 
     this.value = event.detail.value;
     //window.alert(JSON.stringify(this.value));
 
     //Call Apex Method to get Contacts of Selected Account..
-    getContacts({ selectedAccountId: this.value }) //Pass Selected Account recordId to apex method to get related contacts
+    getContacts({ selectedAccountId: this.value }) //Pass Selected Account recordId to apex to get related contacts
       .then((result) => {
         this.data = result;
       })
       .catch((error) => {
-        //window.alert("error:" + error);
+        console.log(error);
       });
   }
 }

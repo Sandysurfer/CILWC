@@ -8,10 +8,10 @@
                 onchange={handleChange}></lightning-input>
         </div>
         <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
-            <lightning-input type="text" name="phone" label="Phone" onfocus={handleChange}></lightning-input>
+            <lightning-input type="text" name="phone" label="Phone" onchange={handleChange}></lightning-input>
         </div>
         <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
-            <lightning-input type="text" name="email" label="Email" onfocus={handleChange}></lightning-input>
+            <lightning-input type="text" name="email" label="Email" onchange={handleChange}></lightning-input>
         </div>
         <div class="slds-p-around_medium lgc-bg slds-size_6-of-12">
             <lightning-combobox name="progress" label="Status" value="" placeholder="Select Progress"
@@ -27,7 +27,7 @@
             <lightning-button class="slds-m-left_small" label="List" variant="brand"
                 onclick={navigateonrecordsList}></lightning-button>
             <lightning-button class="slds-m-left_small" label="Edit" variant="brand"
-                onclick={navigateonrecordsedit}></lightning-button>
+                onclick={navigateonrecordsEdit}></lightning-button>
             <lightning-button class="slds-m-left_small" label="Home" variant="brand"
                 onclick={navigateonrecordsHome}></lightning-button>
             <lightning-button class="slds-m-left_small" label="Tab Customer" variant="brand"

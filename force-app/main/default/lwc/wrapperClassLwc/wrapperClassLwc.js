@@ -4,7 +4,7 @@ import createAccountContact from '@salesforce/apex/AccountWrapperService.createA
 
 export default class WrapperClassDemo extends LightningElement {
 
-    //Sending Wrapper Class From Apex to Lwc Object....
+    //1.)Sending Wrapper Class From Apex to Lwc Object....
 
     @track accountsWithContacts;
     @track error;
@@ -17,7 +17,7 @@ export default class WrapperClassDemo extends LightningElement {
             console.error('Error--->', error);
         }
     }
-    //Creating Account With related Contacts by,
+    //2.)Creating Account With related Contacts by,
     //Sending Object data from Lwc to Apex Wrapper Class,(Using Imperative method)......
     contacts = [];
     createdAccount;

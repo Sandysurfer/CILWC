@@ -60,7 +60,7 @@ export default class CreateUpdateDeleteUsingApex extends NavigationMixin(Lightni
     }
 
     //Navigation to the view record...
-    navigateonrecordsview() {
+    navigateonrecordsView() {
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
@@ -71,7 +71,7 @@ export default class CreateUpdateDeleteUsingApex extends NavigationMixin(Lightni
         })
     }
     //Navigation to the edit record..
-    navigateonrecordsedit() {
+    navigateonrecordsEdit() {
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
@@ -82,7 +82,7 @@ export default class CreateUpdateDeleteUsingApex extends NavigationMixin(Lightni
         })
     }
     //Navigation to the new record...
-    navigateonrecordsnew() {
+    navigateonrecordsNew() {
         this[NavigationMixin.Navigate]({
             type: 'standard__objectPage',
             attributes: {

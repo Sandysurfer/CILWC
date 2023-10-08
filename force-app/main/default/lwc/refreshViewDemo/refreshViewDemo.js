@@ -5,11 +5,10 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import updateAccountName from '@salesforce/apex/AccountUpdateRefreshHandler.updateAccountName';
 
 export default class RefreshAccountData extends LightningElement {
-    @api recordId;
 
     //1.)Use Case While Updating Account Name using refresh view api....
-    //Using async await in place of promises...
 
+    //Using async await in place of promises...
     async refreshViewHandler() {
         let acc = this.refs.accNameRef.value;    //Replacement of (this.template.queryselector.value).....
         console.log('Account Input Name == ', acc);
@@ -23,6 +22,8 @@ export default class RefreshAccountData extends LightningElement {
 
 
     //2.) Use Case While Uploading file use of refreshview api..
+    @api recordId;
+
     get acceptedFormats() {
         return ['.pdf', '.png'];
     }
