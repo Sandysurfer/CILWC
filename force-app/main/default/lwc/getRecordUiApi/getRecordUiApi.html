@@ -2,7 +2,7 @@
   <lightning-card variant="Narrow" title="Get Record Wire as Function" icon-name="standard:account">
     <template if:true={accountRecords}>
       <template for:each={accountRecords} for:item="acc">
-        <lightning-layout key={accObj.id} class="slds-var-m-vertical_x-small">
+        <lightning-layout key={acc.id} class="slds-var-m-vertical_x-small">
           <lightning-layout-Item>
             Account Name: {acc.Name}
             Account Industry: {acc.Industry}

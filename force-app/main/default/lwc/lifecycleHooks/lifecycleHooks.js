@@ -50,7 +50,6 @@ export default class LifecycleHooks extends LightningElement {
     //Access child component as its flow from child to parent component...
 
     //Accessing elements using queryselector is  allowed..
-    // eslint-disable-next-line no-unused-expressions
     this.template.querySelector("lightning-button").value;
 
     //Calling Apex impertive Method  is Allowed...

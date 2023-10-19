@@ -1,4 +1,4 @@
-import { LightningElement,track } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import getAccounts from '@salesforce/apex/CallApexUsingImperative.getAccounts';
 import getClientsAddress from '@salesforce/apex/CallApexUsingImperative.getClientsAddress';
 import findContactList from '@salesforce/apex/CallApexUsingImperative.findContactList';
@@ -31,7 +31,7 @@ export default class CallApexImperativeMethod extends LightningElement {
         //console.log('Hello');
     }
 
-    //Get Clients Records With Realted Address....
+    //Get Clients Records With Related Address....
     handleClick2() {
         let newclientData = [];
         getClientsAddress().then((result) => {
@@ -98,16 +98,16 @@ export default class CallApexImperativeMethod extends LightningElement {
     }
 
     //Passing Account Array from lwc to apex list<Account>...
-    
+
     @track accountArray = ["united group", "stetig", "dreamforce"];
 
-    handleAccountArray(){
-        passAccountList({ accountList : this.accountArray })
+    handleAccountArray() {
+        passAccountList({ accountList: this.accountArray })
             .then(result => {
-                console.log('Account Result:-->'+JSON.stringify(result));
+                console.log('Account Result:-->' + JSON.stringify(result));
             })
             .catch(error => {
-                console.error('Error Result:-->'+ error);
+                console.error('Error Result:-->' + error);
             });
     }
 }
