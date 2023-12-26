@@ -1,4 +1,5 @@
 public class OpportunityTriggerHandler {
+    
     //***Rollup Summary of TotalOpportunities on Account By Using AggregateQuery.......
     public static void rollUpCountOfOpportunity(List<Opportunity> oppList, Map<Id,Opportunity> oldOppMap){
         Set<Id> accIdSet = new Set<Id>();
@@ -22,6 +23,7 @@ public class OpportunityTriggerHandler {
         if(!accIdSet.isEmpty()){
             List<AggregateResult> aggrList = [Select AccountId aIds, Sum(Amount) totalamt, Count(Id) oppCount From Opportunity Where AccountId IN : accIdSet Group by AccountId];
             Map<Id,Account> accMapToUpdate = new Map<Id,Account>();
+            
             if(!aggrList.isEmpty()){
                 //When there is Any Opportunity Linked With Account....
                 for(AggregateResult aggr : aggrList){
@@ -47,6 +49,45 @@ public class OpportunityTriggerHandler {
             }
         }
     }
+    
+    //Task 40: Use case for CustomMetadata..
+    public static void updateDiscountDetails(List<Opportunity> newOppList) {
+        String userBusinessName;
+        Discount__mdt discountMetaData;
+        try {
+            userBusinessName = [SELECT BU_Name__c FROM User WHERE Id =: UserInfo.getUserId()].BU_Name__c;
+            System.debug('User Business Name: ' + userBusinessName);
+            
+            discountMetaData = Discount__mdt.getInstance(userBusinessName);
+            System.debug('Discount Metadata: ' + discountMetaData);
+        }
+        catch (Exception e) {
+            System.debug('An error occurred while fetching user business name or discount metadata: ' + e.getMessage());
+            return; // Exit the method if there's an error.
+        }
+        
+        Set<Id> accIdSet = new Set<Id>();
+        Map<Id, String> accMap = new Map<Id, String>();
+        
+        for (Opportunity opp : newOppList) {
+            if (opp.AccountId != null) {
+                accIdSet.add(opp.AccountId);
+            }
+        }
+        
+        for (Account acc : [SELECT Id, BU_Name__c FROM Account WHERE Id IN : accIdSet]) {
+            System.debug('Account BU Name: ' + acc.BU_Name__c);
+            accMap.put(acc.Id, acc.BU_Name__c);
+        }
+        
+        for (Opportunity opp : newOppList) {
+            if(userBusinessName == accMap.get(opp.AccountId)) {
+                opp.Discount_Amount__c = opp.Amount - discountMetaData.Discount_Percent__c;
+                System.debug('Discount Amount' + opp.Discount_Amount__c);
+            }
+        }
+    }
+    
     //**Task 10: Populate Account Custom Field(Max_Opportunity) With Highest Related Opportunity Amount.......
     public static void populateMaxOpportunity(List<Opportunity> oppList, Map<Id,Opportunity> oldOppMap){
         Set<Id> accIdSet = new Set<Id>();
@@ -76,7 +117,8 @@ public class OpportunityTriggerHandler {
         }
         if(!accIdSet.isEmpty()){
             List<Account> accListToUpdate = new List<Account>();
-            List<Account> accList = [Select Id,Max_Opportunity__c,(Select Id,Name From Opportunities Where Amount != null ORDER BY Amount DESC Limit 1) From Account Where Id IN : accidSet];
+            List<Account> accList = [Select Id,Max_Opportunity__c,(Select Id,Name From Opportunities Where Amount != null 
+                                                                   ORDER BY Amount DESC Limit 1) From Account Where Id IN : accidSet];
             for(Account ac : accList){
                 if(!ac.Opportunities.isEmpty())
                 {
@@ -101,7 +143,7 @@ public class OpportunityTriggerHandler {
         Set<Id> accIdSet = new Set<Id>();
         Map<Id,Account> accountMapToUpdate = new Map<Id,Account>();
         Map<Id,Double> oppTotalAmountMap = new Map<Id,Double>();
-
+        
         if(!newOppList.isEmpty())
         {
             for(Opportunity newOpp : newOppList){
@@ -109,12 +151,12 @@ public class OpportunityTriggerHandler {
                 {
                     Opportunity oldOpp = oldOppMap.get(newOpp.Id);
                     
-                    if(newOpp.AccountId != oldOpp.AccountId) //For Update When ParentAccountId is Changed.....
+                    if(newOpp.AccountId != oldOpp.AccountId) //For Update only When ParentAccountId is Changed.....
                     {
                         accIdSet.add(oldOpp.AccountId);
                         accIdSet.add(newOpp.AccountId);
                     }
-                    else if(newOpp.Amount != oldOpp.Amount) //When Opportunity Amount is Updated.....
+                    else if(newOpp.Amount != oldOpp.Amount) //only When Opportunity Amount is Updated.....
                     {
                         accIdSet.add(newOpp.AccountId);
                     }
@@ -138,13 +180,13 @@ public class OpportunityTriggerHandler {
                         oppTotalAmountMap.put(opp.AccountId, opp.Amount);
                     }
                 }   
-            }
+            }//To Update Account Rating Iterate Over Ids..
             for(Id ids : accIdSet){ 
                 if(oppTotalAmountMap.containsKey(ids))
                 {
                     Double totalAmount = oppTotalAmountMap.get(ids);
                     String rating;
-                    Integer coldThreshold=50000; //Value Set for cold Account Rating...
+                    Integer coldThreshold=50000; //Value Set for cold Account Rating to easily update without modification of code...
                     Integer warmThreshold=100000; //Value Set for warm Account Rating...
                     
                     if(totalAmount <= coldThreshold){
@@ -169,8 +211,8 @@ public class OpportunityTriggerHandler {
         }
     }
     
-//***Task 12:- When All Opportunity Linked to Account whose Stage Name are Closed Won, Update the Account custom Field (Status) to 'Closed',
-// However if any Opportunity Stage Name Which are not Closed. then update Account (Status) to 'Open'.......
+    //***Task 12:- When All Opportunity Linked to Account whose Stage Name are Closed Won, Update the Account custom Field (Status) to 'Closed',
+    // However if any Opportunity Stage Name Which are not Closed. then update Account (Status) to 'Open'.......
     public static void updateAccountStatus(List<Opportunity> newoppList, Map<Id,Opportunity> oldOppMap){
         Set<Id> accIdSet = new Set<Id>();
         Map<Id,Account> accOpportunitiesMap = new Map<Id,Account>();
@@ -193,7 +235,7 @@ public class OpportunityTriggerHandler {
                         accIdSet.add(opp.AccountId);
                     }
                 }
-                //For After Insert Operations(When new Opportunity is Inserted)....
+                //For After Insert Operations(When New Opportunity is Inserted)....
                 else
                 {
                     accIdSet.add(opp.AccountId);
@@ -206,11 +248,14 @@ public class OpportunityTriggerHandler {
             Map<Id,List<Opportunity>> accOppMap = new Map<Id,List<Opportunity>>();
             for(Opportunity opp : [Select Id,AccountId,StageName From Opportunity Where AccountId IN : accIdSet])
             {
-                if(!accOppMap.containsKey(opp.AccountId))
+                if(accOppMap.containsKey(opp.AccountId))
                 {
-                    accOppMap.put(opp.AccountId, new List<Opportunity>());
+                    accOppMap.get(opp.AccountId).add(opp);
                 }
-                accOppMap.get(opp.AccountId).add(opp);
+                else
+                {
+                    accOppMap.put(opp.AccountId, new List<Opportunity>());     
+                }
             }
             
             for(Id ids : accOppMap.keySet()){
@@ -236,7 +281,7 @@ public class OpportunityTriggerHandler {
                 update accListToUpdate;
             }
             
-            //2* By Using Parent to Child (Inner Query). Get All Opportunity Related With Associated Account.....
+            //2* By Using Parent to Child inner Query Get All the Account Related Opportunities and Update Account Status According to Change in Opportunity Stage Name
             for(Account ac : [Select Id,Status__c,(Select Id, StageName From Opportunities) From Account Where Id IN : accIdSet]){
                 accOpportunitiesMap.put(ac.Id,ac);
                 //System.debug('--2--'+accMap.values());
@@ -361,7 +406,7 @@ public class OpportunityTriggerHandler {
             }
         }
     }
-    //Task 15:-When any Opportunity is created with amount populated and When Amount is updated, then populate total Amount on Account Level for all
+    //Task 15:-When any Opportunity is created with amount populated and Amount is updated, then populate total Amount on Account Level for all
     //related opportunities in Annual Revenue Field. If opportunity is deleted or undeleted then update Amount on Account as well..
     public static void populateOpportunityAmount(List<Opportunity> oppList, Map<Id,Opportunity> oldOppMap){
         Set<Id> accIdSet = new Set<Id>();
@@ -376,7 +421,8 @@ public class OpportunityTriggerHandler {
                         accIdSet.add(opp.AccountId);
                     }
                     
-                }else{
+                }
+                else{
                     if(opp.AccountId != null && opp.Amount != null){
                         accIdSet.add(opp.AccountId);
                     }
@@ -384,7 +430,7 @@ public class OpportunityTriggerHandler {
             } 
         }
         if(!accIdSet.isEmpty()){
-            for(Account ac :  [Select Id,AnnualRevenue From Account Where Id IN : accIdSet]){
+            for(Account ac :  [Select Id, AnnualRevenue From Account Where Id IN : accIdSet]){
                 accMap.put(ac.Id,ac);
             }
         }
@@ -506,5 +552,75 @@ public class OpportunityTriggerHandler {
                 insert oppContactRoleToInsert;
             }
         }
+    }
+    
+    //Task 41:- When Opportunity StageName related with Account is Changed then Send an Email to Account Related Contacts i.e (Opportunity StageName is Changed)
+    public static void sendEmailAfterStageNameUpdate(List<Opportunity> newOppList, Map<Id, Opportunity> oldOppMap) {
+        Set<Id> accIdSet = new Set<Id>();
+        Map<Id, List<String>> accIdToEmailsMap = new Map<Id, List<String>>();
+        List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
+        
+        for (Opportunity newOpp : newOppList) {
+            Opportunity oldOpp = oldOppMap.get(newOpp.Id);
+            if (newOpp.StageName != oldOpp.StageName && newOpp.AccountId != null) {
+                accIdSet.add(newOpp.AccountId);
+            }
+        }
+        if (!accIdSet.isEmpty()) {
+            for (Contact con : [SELECT Id, Email, AccountId FROM Contact WHERE AccountId IN :accIdSet]) {
+                if (!accIdToEmailsMap.containsKey(con.AccountId)) {
+                    accIdToEmailsMap.put(con.AccountId, new List<String>());
+                }
+                accIdToEmailsMap.get(con.AccountId).add(con.Email);
+            }
+            
+            for (Opportunity opp : newOppList) {
+                if (opp.AccountId != null && accIdToEmailsMap.containsKey(opp.AccountId)) {
+                    List<String> contactEmailList = accIdToEmailsMap.get(opp.AccountId);
+                    for (String email : contactEmailList) {
+                        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+                        message.setToAddresses(new String[]{email});
+                        message.setSubject('Account Related Opportunity StageName has been Changed');
+                        message.setPlainTextBody('The StageName of the Opportunity ' + opp.Name + ' has been changed to ' + opp.StageName);
+                        emailList.add(message);
+                    }
+                }
+            }
+        }
+        if (!emailList.isEmpty()) {
+            Messaging.sendEmail(emailList);
+        }
+    }
+    
+    //Task 42: Display Count of Opportunity Related Account associated With Contacts and Display on Opportunity Custom Field..
+    Public static void countofRelatedAccountContacts(List<Opportunity> newOppList, Map<Id,Opportunity> oldOppMap){
+        Set<Id> accIdSet = new Set<Id>();
+        Map<Id,Account> accMapToUpdate = new Map<Id,Account>();
+        
+        if(!newOppList.isEmpty()){
+            for(Opportunity opp: newOppList){
+                if(oldOppMap != null){  //For Update Operations
+                    if(opp.AccountId != null && opp.AccountId != oldOppMap.get(opp.id).AccountId){
+                        accIdSet.add(opp.AccountId);
+                    }
+                }
+                else{  //For Insert Operations
+                    accIdSet.add(opp.AccountId); 
+                }
+            }
+        }
+        if(!accIdSet.isEmpty()){  
+            for(Account acc: [Select Id,No_of_Contacts__c, (Select Id From Contacts) From Account Where Id IN : accIdSet]){
+                if(acc.Contacts != null){
+                    acc.No_of_Contacts__c = acc.contacts.size();
+                    accMapToUpdate.put(acc.Id,acc);
+                }
+            }                           
+            for(Opportunity op : newOppList){
+                if(accMapToUpdate.containsKey(op.AccountId)){
+                    op.No_of_Account_Contacts__c = accMapToUpdate.get(op.AccountId).No_of_Contacts__c;	
+                }                         
+            }
+        } 
     }
 }

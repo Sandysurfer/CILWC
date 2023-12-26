@@ -14,8 +14,8 @@ public class AccountContactController{
     @AuraEnabled(cacheable=true)
     public static List<AccountContactWrapper> getAllAccountWithContacts(){
         List<AccountContactWrapper> accWrapperList = new List<AccountContactWrapper>();
-        List<Account> accList = [SELECT Id, Name,(SELECT Id, Name From Contacts) FROM Account LIMIT 5];
         
+        List<Account> accList = [SELECT Id, Name,(SELECT Id, Name From Contacts) FROM Account LIMIT 5];
         if(!accList.isEmpty()){
             for(Account acc : accList){
                 AccountContactWrapper accWrapper = new AccountContactWrapper();

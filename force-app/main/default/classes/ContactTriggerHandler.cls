@@ -25,10 +25,16 @@ public class ContactTriggerHandler {
     public static void updateCostCode(List<Contact> newConList){
         String region = [Select Region__c From User WHERE Id =: userInfo.getUserId()].Region__c;
         //System.debug('--2--'+region);
+        //1.To Access only the Value of Custom Metadata Object...
         Cost_Code_Detail__mdt md = Cost_Code_Detail__mdt.getInstance(region);
         //System.debug('--1--'+md);
         for(Contact c : newConList){
             c.Cost_Detail_Value__c = md.Value__c;
+        }
+        //2.To Get All the Details of Custom Metadata Type...
+        Map<String, Cost_Code_Detail__mdt> mapEd = Cost_Code_Detail__mdt.getAll();
+        for(String nameCostDomain : mapEd.keySet()){
+            System.debug('--2--'+mapEd.get(nameCostDomain).Value__c);
         }
     }
     //Scenario: If we have Contact Record, create a account record and relate it with contact...
@@ -44,12 +50,13 @@ public class ContactTriggerHandler {
         //Relating Contact.AccountId with newly Created Account.....
         Map<String,Id> accMap = new Map<String,Id>();
         for(Account acc : accList){
-            accMap.put(acc.Name,acc.Id);
+            accMap.put(acc.Name, acc.Id);
         }
         for(Contact con : conList){
             con.AccountId = accMap.get(con.LastName); //Through LastName get related Id....
         }
     }
+    
     //Scenario 4:- Update Account of (Customer) Balance Field. When New Contact is created for associated account and 
     //if Contact Transaction Type is deposit then add (balance+amount),else if Transaction Type is withdraw then deduct (balance-amount)..... 
     
@@ -70,7 +77,7 @@ public class ContactTriggerHandler {
             Account acc = accountMap.get(con.AccountId);
             //Stystem.debug('---1---'+acc);
             if(con.Transaction_Type__c == 'Withdraw'){
-                acc.Balance__c = acc.Balance__c-con.Amount__c;
+                acc.Balance__c = acc.Balance__c - con.Amount__c;
                 if(acc.Balance__c < 0){
                     con.addError('Balance insufficient');
                 }
@@ -78,7 +85,7 @@ public class ContactTriggerHandler {
             } 
             else if(con.Transaction_Type__c == 'Deposit'){
                 // System.debug('---3---'+con.Amount__c);
-                acc.Balance__c = acc.Balance__c+con.Amount__c;
+                acc.Balance__c = acc.Balance__c + con.Amount__c;
                 // System.debug('Balance After Operations--->'+acc.Balance__c);
             }
             accMapToUpdate.put(con.AccountId,acc);
@@ -130,6 +137,7 @@ public class ContactTriggerHandler {
             }
         }
     }
+    
     //Task 16:-While Creating Contact,Where Contact is Related With Account,and Contact Email is null,then Copy Related Account Email to Contact Email....
     //1st Method:-By Using Child to Parent Query.....
     public static void copyEmailUsingChildToParent(){
@@ -238,7 +246,7 @@ public class ContactTriggerHandler {
                 }  
                 if(!newConList.isEmpty()){
                     for(Contact conObj : newConList){
-                        //Store RecordType Name in String Variable...
+                        //Store RecordType Name in String Variable to Check Record Type Name whether it Exists...
                         String accRecordType = accMap.get(conObj.AccountId);
                         if(accRecordType != null){
                             if(accRecordType == 'Lead'){
@@ -255,7 +263,7 @@ public class ContactTriggerHandler {
                 }
             }
         }
-        //For Before Update Operations and Appplying Validation...
+        //For Before Update Operations and Appplying Validation....
         else {
             if(!newConList.isEmpty() && oldConMap != null){
                 for(Contact conObj : newConList){
@@ -368,13 +376,13 @@ public class ContactTriggerHandler {
             }
         }
     }
-    //**Task 5:-Update Account Phone With Related Contact Phone, When IsVip Checkbox on Account is checked.Update contact phone to Account Phone....
+    //**Task 5:-Update Account Phone With Related Contact Phone, When isVip Checkbox on Account is checked.Update contact phone to Account Phone....
     public static void updateAccountPhone(List<Contact> newList, Map<Id,Contact> oldConMap){
         Map<Id,Contact> conMap = new Map<Id,Contact>();
         for(Contact con : newList){
             if(con.AccountId != null && con.phone != null){
                 //Null Check for both insert and update operations....
-                if(con.isVip__c == true || oldConMap.get(con.Id).isVip__c == false){ 
+                if(con.isVip__c == true && oldConMap.get(con.Id).isVip__c == false){ 
                     conMap.put(con.AccountId,con);
                 }
             }
@@ -390,6 +398,34 @@ public class ContactTriggerHandler {
             update accListToUpdate;
         }
     }
+    //Task 6:-
+    public static void updateVipContact(list<contact> newConList, map<id,contact> newConMap){
+        set<id> accIds = new set<id>();
+        list<Account> accList = new list<Account>();
+        for(contact c:newConList){
+            if(c.isVip__c){
+                accIds.add(c.AccountId);
+            }
+            if(c.isVip__c && c.Phone != null){
+                Account ac = new Account();
+                ac.id = c.AccountId;
+                ac.phone = c.phone;
+                accList.add(ac);
+            }
+        }
+        List<Contact> conList = new List<Contact>();
+        for(Contact con :  [SELECT Id, isVip__c FROM Contact WHERE accountId IN : accList AND isVip__c = true AND Id NOT IN : newConMap.keySet()]){
+            con.isVip__c = false;
+            conList.add(con);
+        }
+        update conList;
+        try{
+            update accList;
+        } catch(exception ex){
+            system.debug(ex.getMessage());
+        }          
+    }
+
     //**Task 24:-Populate Opportunities__c (Lookup Field) On Contact Object with First Created Opportunity of Related Account...
     public static void updateOpportunityLookUpField(List<Contact> conList) {
         Set<Id> accIdSet = new Set<Id>();
@@ -614,11 +650,11 @@ public class ContactTriggerHandler {
         }
     }
     
-    //2.) RollUp Summary By Using Aggregate Query......
+    //2.)RollUp Summary By Using Aggregate Query......
     public static void countofContactUsingAggregate(List<Contact> newConList, Map<Id,Contact> oldConMap ){
-        
         Set<Id> accIds = new Set<Id>();
         Map<Id,Account> accountMapToUpdate = new Map<Id,Account>();
+        
         if(!newConList.isEmpty()){
             for(Contact newCon : newConList){
                 if(oldConMap != null)

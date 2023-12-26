@@ -15,7 +15,7 @@ public class AccountTriggerHandler {
     }
     
     //***Task :- Create multiple Contacts on update and delete Contacts according to of No of contacts field in Account(While Update)....
-    public static void updateMultipleContact(List<Account> newAccList,Map<Id,Account> oldAccMap){
+    public static void updateMultipleContact(List<Account> newAccList, Map<Id,Account> oldAccMap){
         Set<Id> accIdSet = new Set<Id>();
         Map<Id,List<Contact>> accConMap = new Map<Id,List<Contact>>();
         
@@ -75,20 +75,19 @@ public class AccountTriggerHandler {
     //Scenario 1:- When we are trying to insert new record into Account object. 
     //If there is any record existing with same account name it should prevent duplicate record.....
     
-    public static void preventDuplicateAccountRecords(List<Account> accList){
-        //1.Collect Account Names w.r.t DataType(String) in set....
-        Set<String> accNames = new Set<String>();
-        for(Account acc: accList){
-            accNames.add(acc.Name);
+    public static void preventDuplicateAccountRecords(List<Account> newAccList){
+        Set<String> accNameSet = new Set<String>();
+        
+        for(Account acc: newAccList){
+            accNameSet.add(acc.Name);
         }
-        //Get All the Existing Account Names from DB....
-        List<Account> exAccList = [Select Id,Name From Account Where Name IN : accNames];
-        Set<String> duplicateAccNames = new Set<String>();
-        for(Account acc : accList){
-            duplicateAccNames.add(acc.Name.toLowerCase()); //to prevent cases while inserting...
+        
+        Set<String> duplicateAccNameSet = new Set<String>();
+        for(Account acc : [Select Id,Name From Account Where Name IN : accNameSet]){
+            duplicateAccNameSet.add(acc.Name.toLowerCase()); //to prevent cases while inserting...
         }
-        for(Account ac : accList){
-            if(ac.Name != null && duplicateAccNames.contains(ac.Name.toLowerCase())){
+        for(Account ac : newAccList){
+            if(ac.Name != null && duplicateAccNameSet.contains(ac.Name.toLowerCase())){
                 ac.addError('Account  with same Name already Exists');
             }
         }
@@ -97,6 +96,15 @@ public class AccountTriggerHandler {
     public static void appendPrefixonName(List<Account> accList){
         for(Account acc : accList){
             acc.Name = 'Mr '+acc.Name;
+        }
+    }
+    
+    //Scenario for Test Class..
+    public static void updateAccountDescription(List<Account> newAccList){
+        for(Account acc : newAccList){
+            if(acc.Active__c == 'Yes'){
+                acc.Description = 'Updated From Trigger';
+            }
         }
     }
     //Scenario 3:-Whenever a new record is created into account object,Before this new record is inserted into Account,
@@ -113,7 +121,7 @@ public class AccountTriggerHandler {
         }
     }
     
-    //***Scenario 13:-Update Account Related Contact Phone Whenever account Phone is updated..... 
+    //***Scenario 13:-Update Account Related Contacts Phone Whenever Parent Account Phone is updated..... 
     public static void updateRelatedContactPhone(List<Account> acclist, Map<Id,Account> OldAccMap){
         List<Contact> conlistToupdate = new List<Contact>();
         Map<Id,Account> accMap = new Map<Id,Account>();
@@ -127,8 +135,8 @@ public class AccountTriggerHandler {
         if(accMap.size()>0){
             for(Contact con : [Select Id,HomePhone,AccountId From Contact where AccountId IN : accMap.keyset()]){
                 if(accMap.containskey(con.AccountId)){
-                    con.HomePhone = accMap.get(con.AccountId).phone;
-                    conlistToupdate.add(con);
+                    con.HomePhone = accMap.get(con.AccountId).Phone;
+                    conListToupdate.add(con);
                 }
             }
             if(conlistToupdate.size()>0){
@@ -157,10 +165,10 @@ public class AccountTriggerHandler {
     }
     //***Scenario 16:- Create ‘Sales Rep’ field with datatype (Text) on the account object. When we create account record,
     //the account owner will be automatically added to Sales Rep field. When we update the Account owner of the record,
-    //then also the Sales Rep Will be automatically updated.......
+    //then also the Sales Rep Will be automatically updated.
     
     public static void updateSalesRepField(List<Account> newAccList){
-        //Store Ids of  Account Owner in Set....
+        //Store Ids of Account Owner in Set....
         Set<Id> ownerIdSet = new Set<Id>();
         for(Account acc : newAccList){
             if(acc.OwnerId != null){
@@ -169,16 +177,16 @@ public class AccountTriggerHandler {
         }
         //Use Map to store <Id, User> to Fetch userName.......
         Map<Id,User> userMap = new Map<Id,User>();
-        for(User usr : [Select Id,Name From User Where Id IN : ownerIdSet]){
+        for(User usr : [Select Id, Name From User Where Id IN : ownerIdSet]){
             userMap.put(usr.Id,usr);
             //System.debug('--1--'+userMap);  
         }
-        for(Account a : newAccList){
-            a.Sales_Rep__c = userMap.get(a.OwnerId).Name;
+        for(Account act : newAccList){
+            act.Sales_Rep__c = userMap.get(act.OwnerId).Name;
         }
     }
     
-    //***Task 5:-Automatically close all opportunity whose probability is greater >= 70%.and when checkbox(Close_All_Opps__c) is checked on Account.....
+    //***Task 5:-Automatically close all opportunity whose probability is greater >= 70%.and Checkbox(Close_All_Opps__c) is checked on Account.....
     public static void closeOpportunity(List<Account> newAccList, Map<Id,Account> oldAccMap){
         Set<Id> accIdSet = new Set<Id>();
         //System.debug('---1---'+oldAccMap);
@@ -191,7 +199,7 @@ public class AccountTriggerHandler {
         for(Opportunity opp : [Select Id,StageName From Opportunity Where AccountId IN : accIdSet AND StageName != 'Closed Won' AND Probability >= 70]){
             opp.stageName = 'Closed Won';
             opp.closeDate = date.today();
-            opp.Description = 'Opportunity Record is Updated';
+            opp.Description = 'Opportunity Record is Updated and StageName is Closed Won';
             oppListToUpdate.add(opp);
         }
         if(!oppListToUpdate.isEmpty()){
@@ -200,51 +208,49 @@ public class AccountTriggerHandler {
     }
     //***Task 11: Automatically create Related Contact on Insertion of Account and Update Client Contact Lookup Field With newly created Contact Records.
     //By Using Best Practice.....
-    public static void updateClientContactLookupField(List<Account> newAccList){
+    public static void updateClientContactLookupField(List<Account> newAccList) {
         List<Contact> conList = new List<Contact>();
         Set<Id> accIdSet = new Set<Id>();
         List<Account> accListToUpdate = new List<Account>();
         
-        if(!newAccList.isEmpty()) {
-            for(Account acc : newAccList){
+        if (!newAccList.isEmpty()) {
+            for (Account acc : newAccList) {
                 Contact con = new Contact();
                 con.LastName = acc.Name + 'con';
                 con.AccountId = acc.Id;
                 conList.add(con);
                 accIdSet.add(acc.Id);
             }
-            if(!conList.isEmpty()){
-                insert ConList;
+            if (!conList.isEmpty()) {
+                insert conList;
             }
         }
-        // Updating Account Object:Client Contact Lookup Field With newly Created Contact Id.....
-        if(!accIdSet.isEmpty()) {           
-            Map<Id,Account> accMap = new Map<Id,Account>();
-            List<Account> exAccList = [Select Id,Client_Contact__c From Account Where Id IN : accIdSet];
-            if(!exAccList.isEmpty()){
-                for(Account ac : exAccList){
-                    accMap.put(ac.Id,ac);
+        
+        // Updating Account (Client Contact)Lookup Field With newly Created related Contact Id.....
+        if (!accIdSet.isEmpty()) {
+            Map<Id, Account> accMap = new Map<Id, Account>();
+            List<Account> exAccList = [SELECT Id, Client_Contact__c FROM Account WHERE Id IN :accIdSet];
+            
+            for (Account ac : exAccList) {
+                accMap.put(ac.Id, ac);
+            }
+            
+            for (Contact con : conList) {
+                if (accMap.containsKey(con.AccountId)) {
+                    // Making Instance of Account to assign custom field(client_Contact__c) with newly created Related Contact Record Id....
+                    Account ac = accMap.get(con.AccountId);
+                    ac.Client_Contact__c = con.Id;
+                    accListToUpdate.add(ac);
                 }
             }
-            if(!conList.isEmpty()){
-                for(Contact con : conList){
-                    //System.debug('---1---'+accMap.containsKey(con.AccountId));
-                    if(accMap.containsKey(con.AccountId)){
-                        //Making Instance of Account to assign custom field(client_Contact__c) with newly created contact Record....
-                        Account ac = accMap.get(con.AccountId);
-                        ac.Client_Contact__c = con.Id;
-                        accListToUpdate.add(ac);
-                    }
-                }
-            }
-            if(!accListToUpdate.isEmpty()){
+            
+            if (!accListToUpdate.isEmpty()) {
                 update accListToUpdate;
-            }     
-        }        
+            }
+        }
     }
-    
-    //Task 27:-Prevent insertion of Account while creating the account with same email and existing account already exists and
-    //have related contacts to it..
+
+//Task 27:-Prevent insertion of Account while creating the account with same email and existing account already exists With related contacts....
     public static void avoidInsertionOfAccount(List<Account> newAccList){
         Set<String> emailSet = new Set<String>();
         if(!newAccList.isEmpty()){
@@ -267,9 +273,10 @@ public class AccountTriggerHandler {
             }
         } 
     }
-    //Task 15:-When Account field Active__c  is updated from ‘Yes’ to ‘No’ then check all opportunities,
-    // associated with the account. Update all opportunities Stage to close lost if stage not equal to close won.
-    public static void updateOpporunityStage(List<Account> accList,Map<Id,Account> oldAccMap){
+    
+//Task 15:- When Account field Active__c  is updated from ‘Yes’ to ‘No’ then check all opportunities, associated with the account.
+//Update all opportunities Stage to close lost if stage not equal to close won.
+    public static void updateOpporunityStage(List<Account> accList, Map<Id,Account> oldAccMap){
         Set<Id> accIdSet = new Set<Id>();
         for(Account newAcc : accList){
             Account oldAcc = oldAccMap.get(newAcc.Id);
@@ -293,7 +300,7 @@ public class AccountTriggerHandler {
         }
     }
     //***Task 28:-When User Changes Account Field Status From Open to Closed,then Delete all Related Opportunities related with it and then
-    // Check Do_Not_Contact__c checkbox on Related Contact...
+    // Check Do_Not_Contact__c checkbox field on Related Contact...
     public static void changeStatus(List<Account> newAccList, Map<Id,Account> oldAccMap){
         Set<Id> accIdSet = new Set<Id>();
         List<Contact> conListToUpdate = new List<Contact>();
@@ -310,7 +317,6 @@ public class AccountTriggerHandler {
         }
         if(!accIdSet.isEmpty()){
             List<Contact> conList = [Select Id, Do_Not_Contact__c From Contact Where AccountId IN : accIdSet AND Do_Not_Contact__c = false];
-            
             List<Opportunity> oppList = [Select Id From Opportunity Where AccountId IN : accIdSet AND StageName != 'Closed Won'];
             
             if(!conList.isEmpty()){

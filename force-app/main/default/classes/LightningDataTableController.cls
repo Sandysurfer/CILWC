@@ -2,7 +2,7 @@ public class LightningDataTableController {
     
     @AuraEnabled(Cacheable=true)
     public static List<Contact> getContactList(){
-        return[Select Id,Name From Contact];
+        return[Select Id,FirstName,LastName,Phone,Email From Contact Limit 10];
     }
     
     @AuraEnabled(cacheable = true)
@@ -24,8 +24,8 @@ public class LightningDataTableController {
         try{
             delete accObj;
         }
-        catch(exception e){
-            throw new AuraHandledException(e.getMessage());
+        catch(exception ex){
+            throw new AuraHandledException(ex.getMessage());
         }
     }
     
