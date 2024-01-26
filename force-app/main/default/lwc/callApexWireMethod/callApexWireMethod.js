@@ -16,7 +16,8 @@ export default class CallApexWireMethod extends LightningElement {
   }
 
   //Wire as a Property With Parameter...  
-  @wire(findContactList, { searchContacts: '$searchContactKey' }) contacts;
+  @wire(findContactList, { searchContacts: '$searchContactKey' })
+  contacts;
 
 
   accList;
@@ -28,26 +29,28 @@ export default class CallApexWireMethod extends LightningElement {
   }
 
   //Wire as a Function with Parameter...
-  @wire(findAccountList, { searchAccounts: '$searchAccountKey' }) getAccounts({ data, error }) {
+  @wire(findAccountList, { searchAccounts: '$searchAccountKey' })
+  getAccounts({ data, error }) {
     if (data) {
       this.accList = data;
       console.log('accList-->' + JSON.stringify(this.accList));
     }
-    else if(error) {
+    else if (error) {
       this.error = error;
     }
   }
 
   //Passing New Account array from lwc to apex...
-   newAccList;
-   accountArray = ["Madrid","Barcelona","Sevilla"];
+  newAccList;
+  accountArray = ["Madrid", "Barcelona", "Sevilla"];
 
-  @wire(passAccountList, {newAccountList : '$accountArray'}) newAccount ({data, error}) {
-      if (data) {
-        this.newAccList = data
-        console.log('Account Data-->'+JSON.stringify(this.newAccList));
-      } else if (error) {
-        console.log('Accout Error-->'+error);
-      }
+  @wire(passAccountList, { newAccountList: '$accountArray' })
+  newAccount({ data, error }) {
+    if (data) {
+      this.newAccList = data
+      console.log('Account Data-->' + JSON.stringify(this.newAccList));
+    } else if (error) {
+      console.log('Accout Error-->' + error);
+    }
   }
 }

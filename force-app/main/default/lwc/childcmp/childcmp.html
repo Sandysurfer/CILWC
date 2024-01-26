@@ -1,4 +1,22 @@
 <template>
-    <p>This is Child Component</p>
-    And Value is Coming From Parent --- {getValueFromParent}
+  <p>This is Child Component</p>
+  And Value is Coming From Parent --- {getValueFromParent}
+  <lightning-card title="Child Component" icon-name="standard:account">
+    <div class="childcss1">
+      <p>I'm a Child Component</p>
+    </div>
+    <p>{handleChild}</p>
+    <lightning-input label="Name" lwc:ref="NameRef"></lightning-input>
+    <lightning-input
+      label="Age"
+      type="Number"
+      lwc:ref="AgeRef"
+    ></lightning-input>
+    <lightning-button
+      label="Submit"
+      class="slds-grid slds-var-m-top_medium"
+      onclick={handleSave}
+      variant="brand"
+    ></lightning-button>
+  </lightning-card>
 </template>

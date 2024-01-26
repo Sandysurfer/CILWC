@@ -8,7 +8,9 @@ export default class WrapperClassDemo extends LightningElement {
 
     @track accountsWithContacts;
     @track error;
-    @wire(getAllAccountWithContacts) wiredAccountWithContacts({ error, data }) {
+
+    @wire(getAllAccountWithContacts)
+    wiredAccountWithContacts({ error, data }) {
         if (data) {
             this.accountsWithContacts = data;
             console.log('Data--->' + JSON.stringify(data));
@@ -18,7 +20,7 @@ export default class WrapperClassDemo extends LightningElement {
         }
     }
     //2.)Creating Account With related Contacts by,
-    //Sending Object data from Lwc to Apex Wrapper Class,(Using Imperative method)......
+    //Sending Object from Lwc to Apex Wrapper Class,(Using Imperative method)......
     contacts = [];
     createdAccount;
     errorRecord;

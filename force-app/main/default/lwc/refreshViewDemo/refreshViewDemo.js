@@ -11,13 +11,13 @@ export default class RefreshAccountData extends LightningElement {
     //Using async await in place of promises...
     async refreshViewHandler() {
         let acc = this.refs.accNameRef.value;    //Replacement of (this.template.queryselector.value).....
-        console.log('Account Input Name == ', acc);
+        console.log('Account Input Name', acc);
         await updateAccountName({ Id: this.recordId, Name: acc });
 
         //RefreshView in Lwc
         this.showToast("Success!", "Account Name has been updated successfully.", "Success");
         this.dispatchEvent(new RefreshEvent());
-        console.log('Event is dispatch');
+        console.log('Event is dispatched');
     }
 
 

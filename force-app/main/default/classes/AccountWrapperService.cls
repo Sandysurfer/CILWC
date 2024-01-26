@@ -33,7 +33,7 @@ public class AccountWrapperService{
 /*Executing Wrapper Class....
  * 
  // Create an instance of the AccountWrapper class
-     AccountLightningService.AccountWrapper wrapper = new AccountLightningService.AccountWrapper();
+     AccountWrapperService.AccountWrapper wrapper = new AccountWrapperService.AccountWrapper();
 
 // Populate the properties of the wrapper object
    wrapper.Name = 'ACC';
@@ -44,5 +44,5 @@ public class AccountWrapperService{
    wrapper.Contacts = conlist;
 
 // Call the createAccountContact method with the wrapper object
-AccountLightningService.createAccountContact(wrapper);
+AccountWrapperService.createAccountContact(wrapper);
 */

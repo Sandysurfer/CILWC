@@ -1,5 +1,17 @@
 <template>
-    <p>This is Parent Component Calling Child Component</p>
-    <c-childcmp get-value-from-parent={valueFromParent}>
-    </c-childcmp>
+  <p>This is Parent Component Calling Child Component</p>
+  <c-childcmp get-value-from-parent={valueFromParent}> </c-childcmp>
+  <lightning-card title="Parent" icon-name="standard:contact">
+    <div class="slds-var-m-around_medium">
+      <lightning-button
+        label="ParentMe"
+        onclick={handleParent}
+      ></lightning-button>
+      <lightning-button
+        label="Get Details"
+        onclick={handleDetails}
+      ></lightning-button>
+      <c-child lwc:ref="childcmp"></c-child>
+    </div>
+  </lightning-card>
 </template>
